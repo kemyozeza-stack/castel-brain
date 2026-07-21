@@ -12,7 +12,7 @@
   <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>function showCastelView(view){var reports=view==='reports',areas=document.getElementById('areas-view'),upload=document.getElementById('upload-view'),dashboard=document.getElementById('dashboard-view');if(areas)areas.classList.toggle('hidden',reports);if(upload)upload.classList.toggle('hidden',!reports);if(dashboard)dashboard.classList.add('hidden');document.querySelectorAll('.nav-link').forEach(function(b){b.classList.toggle('active',b.dataset.view===view)});location.hash=view;}</script>
-  <script defer src="app.js?v=5"></script>
+  <script defer src="app.js?v=6"></script>
 </head>
 <body>
   <header class="topbar">
@@ -64,8 +64,8 @@
       <section class="metrics" id="metrics"></section>
 
       <section class="chart-grid">
-        <article class="panel"><div class="panel-head"><div><p class="eyebrow">Performance</p><h2>VGV por produto</h2></div></div><div id="product-chart" class="chart"></div></article>
-        <article class="panel"><div class="panel-head"><div><p class="eyebrow">Conversão</p><h2>Vendas por imobiliária</h2></div></div><div id="agency-chart" class="chart"></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">Performance</p><h2 id="product-chart-title">VGV por produto</h2></div></div><div id="product-chart" class="chart"></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">Comparativo</p><h2 id="agency-chart-title">Vendas por imobiliária</h2></div></div><div id="agency-chart" class="chart"></div></article>
       </section>
 
       <section class="panel table-panel">
