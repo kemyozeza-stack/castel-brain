@@ -12,13 +12,14 @@
   <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>function showCastelView(view){var reports=view==='reports',areas=document.getElementById('areas-view'),upload=document.getElementById('upload-view'),dashboard=document.getElementById('dashboard-view');if(areas)areas.classList.toggle('hidden',reports);if(upload)upload.classList.toggle('hidden',!reports);if(dashboard)dashboard.classList.add('hidden');document.querySelectorAll('.nav-link').forEach(function(b){b.classList.toggle('active',b.dataset.view===view)});location.hash=view;}</script>
-  <script defer src="app.js?v=10"></script>
+  <script defer src="app.js?v=11"></script>
 </head>
 <body>
   <header class="topbar">
     <div class="brand"><span class="brand-mark">CB</span><span>Castel Brain</span></div>
     <nav class="main-nav" aria-label="Navegação principal">
       <button class="nav-link active" data-view="reports" type="button" onclick="showCastelView('reports')">Relatórios</button>
+      <button class="nav-link" data-view="history" type="button">Histórico</button>
       <button class="nav-link" data-view="areas" type="button" onclick="showCastelView('areas')">Banco de áreas</button>
     </nav>
     <span class="privacy-pill">🔒 Processamento local</span>
@@ -51,7 +52,7 @@
     <section class="dashboard hidden" id="dashboard-view">
       <div class="dashboard-head">
         <div><p class="eyebrow">Visão executiva</p><h1 id="report-title">Dashboard comercial</h1><p id="row-count" class="muted"></p></div>
-        <div class="actions"><button class="button secondary" id="new-file">Trocar arquivo</button><button class="button secondary" id="export-csv">Exportar base</button><button class="button primary" id="export-pptx">Gerar apresentação</button></div>
+        <div class="actions"><button class="button secondary" id="new-file">Trocar arquivo</button><button class="button secondary" id="save-history">Salvar no histórico</button><button class="button secondary" id="export-csv">Exportar base</button><button class="button primary" id="export-pptx">Gerar apresentação</button></div>
       </div>
 
       <section class="filters" aria-label="Filtros do relatório">
@@ -98,6 +99,14 @@
         <div class="panel-head"><div><p class="eyebrow">Conferência</p><h2>Detalhamento dos negócios</h2></div><span class="muted" id="sales-detail-count"></span></div>
         <div class="table-wrap"><table><thead><tr><th>Responsável</th><th>Loteamento</th><th>Quadra</th><th>Lote</th><th>Cliente</th><th>Corretor</th><th>PV / VGV</th><th>Recebido</th><th>Pendente</th></tr></thead><tbody id="sales-detail-body"></tbody></table></div>
       </section>
+    </section>
+
+    <section class="areas-view hidden" id="history-view">
+      <div class="dashboard-head">
+        <div><p class="eyebrow">Memória local</p><h1>Histórico de relatórios</h1><p class="muted" id="history-summary">Relatórios salvos somente neste navegador.</p></div>
+      </div>
+      <section class="areas-grid" id="history-grid"></section>
+      <section class="empty-areas" id="empty-history"><div class="shield">↻</div><h2>Nenhum relatório salvo</h2><p>Abra uma planilha e clique em “Salvar no histórico”.</p></section>
     </section>
 
     <section class="areas-view hidden" id="areas-view">
