@@ -8,12 +8,12 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://cdn.plot.ly">
   <link rel="stylesheet" href="styles.css?v=3">
-  <style>.area-card.selected{border:2px solid #164a35;box-shadow:0 0 0 3px rgba(205,232,107,.35)}.metric small{display:block;margin-top:8px;font-weight:800}.positive{color:#197044}.negative{color:#b0483e}.comparison-metrics{margin-top:22px}</style>
+  <style>.area-card.selected{border:2px solid #164a35;box-shadow:0 0 0 3px rgba(205,232,107,.35)}.metric small{display:block;margin-top:8px;font-weight:800}.positive{color:#197044}.negative{color:#b0483e}.comparison-metrics{margin-top:22px}.diagnostic-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.diagnostic-item{padding:8px 11px;border-radius:999px;background:#edf2ed;color:#164a35;font-size:12px;font-weight:750}.diagnostic-item.missing{background:#f8ecea;color:#9a3f36}.import-diagnostics{padding-bottom:14px}</style>
   <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>function showCastelView(view){var reports=view==='reports',areas=document.getElementById('areas-view'),upload=document.getElementById('upload-view'),dashboard=document.getElementById('dashboard-view');if(areas)areas.classList.toggle('hidden',reports);if(upload)upload.classList.toggle('hidden',!reports);if(dashboard)dashboard.classList.add('hidden');document.querySelectorAll('.nav-link').forEach(function(b){b.classList.toggle('active',b.dataset.view===view)});location.hash=view;}</script>
-  <script defer src="app.js?v=13"></script>
+  <script defer src="app.js?v=14"></script>
 </head>
 <body>
   <header class="topbar">
@@ -61,6 +61,12 @@
         <div><label for="filter-agency">Imobiliária</label><select id="filter-agency"><option value="">Todas</option></select></div>
         <div><label for="filter-manager">Gerente</label><select id="filter-manager"><option value="">Todos</option></select></div>
         <div><label for="filter-broker">Corretor</label><select id="filter-broker"><option value="">Todos</option></select></div>
+      </section>
+
+      <section class="panel import-diagnostics" id="import-diagnostics">
+        <div class="panel-head"><div><p class="eyebrow">Leitura da planilha</p><h2>Campos reconhecidos</h2></div><span class="status-badge" id="import-quality">Verificando</span></div>
+        <div class="diagnostic-list" id="diagnostic-list"></div>
+        <p class="muted" id="diagnostic-message"></p>
       </section>
 
       <section class="metrics" id="metrics"></section>
