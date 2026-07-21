@@ -13,7 +13,7 @@
   <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>function showCastelView(view){var reports=view==='reports',areas=document.getElementById('areas-view'),upload=document.getElementById('upload-view'),dashboard=document.getElementById('dashboard-view');if(areas)areas.classList.toggle('hidden',reports);if(upload)upload.classList.toggle('hidden',!reports);if(dashboard)dashboard.classList.add('hidden');document.querySelectorAll('.nav-link').forEach(function(b){b.classList.toggle('active',b.dataset.view===view)});location.hash=view;}</script>
-  <script defer src="app.js?v=12"></script>
+  <script defer src="app.js?v=13"></script>
 </head>
 <body>
   <header class="topbar">
@@ -105,6 +105,7 @@
     <section class="areas-view hidden" id="history-view">
       <div class="dashboard-head">
         <div><p class="eyebrow">Memória local</p><h1>Histórico de relatórios</h1><p class="muted" id="history-summary">Relatórios salvos somente neste navegador.</p></div>
+        <div class="actions"><button class="button secondary" id="backup-all">Baixar backup completo</button><label class="button primary" for="restore-all">Restaurar backup</label><input id="restore-all" type="file" accept=".json" hidden></div>
       </div>
       <section class="panel hidden" id="comparison-panel">
         <div class="panel-head"><div><p class="eyebrow">Comparação de períodos</p><h2 id="comparison-title">Selecione dois relatórios</h2></div><button class="small-button" id="clear-comparison">Limpar comparação</button></div>
