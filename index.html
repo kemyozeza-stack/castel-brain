@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Castel Brain — dashboard comercial privado no navegador.">
+  <title>Castel Brain | Dashboard Comercial</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdn.plot.ly">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">CB</span><span>Castel Brain</span></div>
+    <span class="privacy-pill">🔒 Processamento local</span>
+  </header>
+
+  <main>
+    <section class="hero" id="upload-view">
+      <div class="hero-copy">
+        <p class="eyebrow">Inteligência comercial sem expor seus dados</p>
+        <h1>Transforme seu Excel em decisões.</h1>
+        <p class="lead">Analise leads, visitas, propostas, vendas e VGV diretamente no navegador. Sua planilha não é enviada para nenhum servidor.</p>
+        <div class="actions">
+          <label class="button primary" for="file-input">Selecionar relatório</label>
+          <a class="button secondary" href="modelo_relatorio_castel.xlsx" download>Baixar planilha-modelo</a>
+          <input id="file-input" type="file" accept=".xlsx,.xls,.csv" hidden>
+        </div>
+        <p class="file-help" id="file-status">Formatos aceitos: Excel e CSV.</p>
+      </div>
+      <aside class="security-card">
+        <div class="shield">✓</div>
+        <h2>Privacidade por padrão</h2>
+        <ul>
+          <li>Leitura feita no seu dispositivo</li>
+          <li>Nenhum banco de dados externo</li>
+          <li>Dados apagados ao fechar a página</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="dashboard hidden" id="dashboard-view">
+      <div class="dashboard-head">
+        <div><p class="eyebrow">Visão executiva</p><h1 id="report-title">Dashboard comercial</h1><p id="row-count" class="muted"></p></div>
+        <div class="actions"><button class="button secondary" id="new-file">Trocar arquivo</button><button class="button primary" id="export-csv">Exportar base filtrada</button></div>
+      </div>
+
+      <section class="filters" aria-label="Filtros do relatório">
+        <div><label for="filter-product">Produto</label><select id="filter-product"><option value="">Todos</option></select></div>
+        <div><label for="filter-agency">Imobiliária</label><select id="filter-agency"><option value="">Todas</option></select></div>
+        <div><label for="filter-manager">Gerente</label><select id="filter-manager"><option value="">Todos</option></select></div>
+        <div><label for="filter-broker">Corretor</label><select id="filter-broker"><option value="">Todos</option></select></div>
+      </section>
+
+      <section class="metrics" id="metrics"></section>
+
+      <section class="chart-grid">
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">Performance</p><h2>VGV por produto</h2></div></div><div id="product-chart" class="chart"></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">Conversão</p><h2>Vendas por imobiliária</h2></div></div><div id="agency-chart" class="chart"></div></article>
+      </section>
+
+      <section class="panel table-panel">
+        <div class="panel-head"><div><p class="eyebrow">Ranking</p><h2>Corretores por VGV</h2></div></div>
+        <div class="table-wrap"><table><thead><tr><th>#</th><th>Corretor</th><th>Gerente</th><th>Visitas</th><th>Vendas</th><th>Conversão</th><th>VGV</th></tr></thead><tbody id="ranking-body"></tbody></table></div>
+      </section>
+    </section>
+  </main>
+  <footer>Castel Brain · Seus dados permanecem no navegador</footer>
+</body>
+</html>
+
