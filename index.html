@@ -9,12 +9,12 @@
   <link rel="preconnect" href="https://cdn.plot.ly">
   <link rel="stylesheet" href="styles.css?v=3">
   <style>.area-card.selected{border:2px solid #164a35;box-shadow:0 0 0 3px rgba(205,232,107,.35)}.metric small{display:block;margin-top:8px;font-weight:800}.positive{color:#197044}.negative{color:#b0483e}.comparison-metrics{margin-top:22px}.diagnostic-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.diagnostic-item{padding:8px 11px;border-radius:999px;background:#edf2ed;color:#164a35;font-size:12px;font-weight:750}.diagnostic-item.missing{background:#f8ecea;color:#9a3f36}.import-diagnostics{padding-bottom:14px}</style>
-  <style>:root{--ink:#20283a;--muted:#687083;--paper:#f6f3ed;--green:#1e2a44;--lime:#c8a96a;--line:#ded8ce;--shadow:0 18px 60px rgba(30,42,68,.12)}body,.topbar{background-color:#f6f3ed}.main-nav{background:#ebe6dd}.privacy-pill,.status-badge{background:#eee6d8;color:#1e2a44}.eyebrow{color:#8c6f3d}.area-card.selected{border-color:#1e2a44;box-shadow:0 0 0 3px rgba(200,169,106,.35)}.diagnostic-item{background:#eee6d8;color:#1e2a44}.small-button{background:#eeeae2;color:#1e2a44}</style>
+  <style>:root{--ink:#20283a;--muted:#687083;--paper:#f6f3ed;--green:#1e2a44;--lime:#c8a96a;--line:#ded8ce;--shadow:0 18px 60px rgba(30,42,68,.12)}body,.topbar{background-color:#f6f3ed}.main-nav{background:#ebe6dd}.privacy-pill,.status-badge{background:#eee6d8;color:#1e2a44}.eyebrow{color:#8c6f3d}.area-card.selected{border-color:#1e2a44;box-shadow:0 0 0 3px rgba(200,169,106,.35)}.diagnostic-item{background:#eee6d8;color:#1e2a44}.small-button{background:#eeeae2;color:#1e2a44}.areas-toolbar{grid-template-columns:1fr 210px 210px}.priority-badge{font-size:10px;font-weight:850;border-radius:999px;padding:5px 8px;white-space:nowrap}.priority-alta{background:#f8e5e1;color:#9a3f36}.priority-media{background:#eee6d8;color:#7c5c26}.priority-baixa{background:#e8edf5;color:#1e2a44}.area-badges{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.area-next{margin:14px 0 0;padding:11px 12px;border-radius:10px;background:#f6f3ed;color:#374056;font-size:12px;line-height:1.45}.area-card-actions{flex-wrap:wrap}@media(max-width:700px){.areas-toolbar{grid-template-columns:1fr}}</style>
   <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>function showCastelView(view){var reports=view==='reports',areas=document.getElementById('areas-view'),upload=document.getElementById('upload-view'),dashboard=document.getElementById('dashboard-view');if(areas)areas.classList.toggle('hidden',reports);if(upload)upload.classList.toggle('hidden',!reports);if(dashboard)dashboard.classList.add('hidden');document.querySelectorAll('.nav-link').forEach(function(b){b.classList.toggle('active',b.dataset.view===view)});location.hash=view;}</script>
-  <script defer src="app.js?v=19"></script>
+  <script defer src="app.js?v=20"></script>
 </head>
 <body>
   <header class="topbar">
@@ -151,8 +151,9 @@
 
       <section class="area-stats" id="area-stats"></section>
       <section class="areas-toolbar">
-        <div class="search-box"><label for="area-search">Buscar</label><input id="area-search" type="search" placeholder="Código, cidade, bairro ou proprietário"></div>
+        <div class="search-box"><label for="area-search">Buscar</label><input id="area-search" type="search" placeholder="Código, cidade, bairro, responsável ou proprietário"></div>
         <div><label for="area-status-filter">Status</label><select id="area-status-filter"><option value="">Todos</option><option>Prospecção</option><option>Em análise</option><option>Negociação</option><option>Aprovada</option><option>Descartada</option></select></div>
+        <div><label for="area-priority-filter">Prioridade</label><select id="area-priority-filter"><option value="">Todas</option><option>Alta</option><option>Média</option><option>Baixa</option></select></div>
       </section>
 
       <section class="areas-grid" id="areas-grid"></section>
@@ -197,6 +198,17 @@
         <div><label for="area-owner">Proprietário / contato</label><input id="area-owner"></div>
         <div><label for="area-phone">Telefone</label><input id="area-phone" type="tel"></div>
         <div><label for="area-status">Status</label><select id="area-status"><option>Prospecção</option><option>Em análise</option><option>Negociação</option><option>Aprovada</option><option>Descartada</option></select></div>
+        <div><label for="area-priority">Prioridade</label><select id="area-priority"><option>Alta</option><option selected>Média</option><option>Baixa</option></select></div>
+        <div><label for="area-responsible">Responsável Castel</label><input id="area-responsible" placeholder="Quem acompanha a oportunidade"></div>
+        <div><label for="area-source">Origem da oportunidade</label><input id="area-source" placeholder="Indicação, corretor, proprietário..."></div>
+        <div><label for="area-zoning">Zoneamento / uso permitido</label><input id="area-zoning"></div>
+        <div><label for="area-potentialUnits">Potencial de unidades</label><input id="area-potentialUnits" type="number" min="0" step="1"></div>
+        <div><label for="area-lastContact">Último contato</label><input id="area-lastContact" type="date"></div>
+        <div><label for="area-nextActionDate">Data da próxima ação</label><input id="area-nextActionDate" type="date"></div>
+        <div class="full"><label for="area-nextAction">Próxima ação</label><input id="area-nextAction" placeholder="Ex.: solicitar matrícula e estudo preliminar"></div>
+        <div><label for="area-latitude">Latitude</label><input id="area-latitude" type="number" step="any" placeholder="-16.6869"></div>
+        <div><label for="area-longitude">Longitude</label><input id="area-longitude" type="number" step="any" placeholder="-49.2648"></div>
+        <div class="full"><label for="area-documentsLink">Link de documentos</label><input id="area-documentsLink" type="url" placeholder="https://..."></div>
         <div class="full"><label for="area-address">Endereço / referência</label><input id="area-address"></div>
         <div class="full"><label for="area-notes">Observações</label><textarea id="area-notes" rows="4"></textarea></div>
       </div>
