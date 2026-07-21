@@ -14,7 +14,7 @@
   <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>function showCastelView(view){var reports=view==='reports',areas=document.getElementById('areas-view'),upload=document.getElementById('upload-view'),dashboard=document.getElementById('dashboard-view');if(areas)areas.classList.toggle('hidden',reports);if(upload)upload.classList.toggle('hidden',!reports);if(dashboard)dashboard.classList.add('hidden');document.querySelectorAll('.nav-link').forEach(function(b){b.classList.toggle('active',b.dataset.view===view)});location.hash=view;}</script>
-  <script defer src="app.js?v=18"></script>
+  <script defer src="app.js?v=19"></script>
 </head>
 <body>
   <header class="topbar">
@@ -80,6 +80,12 @@
       </section>
 
       <section class="metrics" id="metrics"></section>
+
+      <section class="panel hidden" id="marketing-panel">
+        <div class="panel-head"><div><p class="eyebrow">Marketing e retorno</p><h2>Investimento versus resultado</h2></div><span class="muted">Inclui Castel Infinity e qualquer produto mapeado</span></div>
+        <section class="metrics" id="marketing-metrics"></section>
+        <div id="marketing-chart" class="chart"></div>
+      </section>
 
       <section class="chart-grid">
         <article class="panel"><div class="panel-head"><div><p class="eyebrow">Performance</p><h2 id="product-chart-title">VGV por produto</h2></div></div><div id="product-chart" class="chart"></div></article>
