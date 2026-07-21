@@ -14,7 +14,7 @@
   <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>function showCastelView(view){var reports=view==='reports',areas=document.getElementById('areas-view'),upload=document.getElementById('upload-view'),dashboard=document.getElementById('dashboard-view');if(areas)areas.classList.toggle('hidden',reports);if(upload)upload.classList.toggle('hidden',!reports);if(dashboard)dashboard.classList.add('hidden');document.querySelectorAll('.nav-link').forEach(function(b){b.classList.toggle('active',b.dataset.view===view)});location.hash=view;}</script>
-  <script defer src="app.js?v=17"></script>
+  <script defer src="app.js?v=18"></script>
 </head>
 <body>
   <header class="topbar">
@@ -22,6 +22,7 @@
     <nav class="main-nav" aria-label="Navegação principal">
       <button class="nav-link active" data-view="reports" type="button" onclick="showCastelView('reports')">Relatórios</button>
       <button class="nav-link" data-view="history" type="button">Histórico</button>
+      <button class="nav-link" data-view="goals" type="button">Metas</button>
       <button class="nav-link" data-view="areas" type="button" onclick="showCastelView('areas')">Banco de áreas</button>
     </nav>
     <span class="privacy-pill">🔒 Processamento local</span>
@@ -70,6 +71,12 @@
         <div class="panel-head"><div><p class="eyebrow">Leitura da planilha</p><h2>Campos reconhecidos</h2></div><div class="actions"><span class="status-badge" id="import-quality">Verificando</span><button class="small-button" id="open-mapping">Corrigir campos</button></div></div>
         <div class="diagnostic-list" id="diagnostic-list"></div>
         <p class="muted" id="diagnostic-message"></p>
+      </section>
+
+      <section class="panel" id="audit-panel">
+        <div class="panel-head"><div><p class="eyebrow">Auditoria automática</p><h2>Qualidade dos dados</h2></div><button class="small-button" id="export-audit">Baixar auditoria</button></div>
+        <section class="metrics" id="audit-metrics"></section>
+        <div id="audit-issues" class="diagnostic-list"></div>
       </section>
 
       <section class="metrics" id="metrics"></section>
@@ -144,6 +151,21 @@
 
       <section class="areas-grid" id="areas-grid"></section>
       <section class="empty-areas" id="empty-areas"><div class="shield">+</div><h2>Seu banco está pronto</h2><p>Cadastre a primeira área para começar a organizar oportunidades.</p><button class="button primary" id="first-area">Cadastrar primeira área</button></section>
+    </section>
+
+    <section class="areas-view hidden" id="goals-view">
+      <div class="dashboard-head"><div><p class="eyebrow">Planejamento comercial</p><h1>Metas</h1><p class="muted">Metas salvas somente neste navegador.</p></div></div>
+      <section class="panel">
+        <div class="form-grid">
+          <div><label for="goal-name">Nome do período</label><input id="goal-name" placeholder="Ex.: Agosto de 2026"></div>
+          <div><label for="goal-leads">Meta de leads</label><input id="goal-leads" type="number" min="0"></div>
+          <div><label for="goal-sales">Meta de vendas</label><input id="goal-sales" type="number" min="0"></div>
+          <div><label for="goal-vgv">Meta de VGV (R$)</label><input id="goal-vgv" type="number" min="0" step="0.01"></div>
+        </div>
+        <div class="dialog-actions"><button class="button primary" id="save-goal">Salvar meta</button></div>
+      </section>
+      <section class="areas-grid" id="goals-grid"></section>
+      <section class="empty-areas" id="empty-goals"><div class="shield">◎</div><h2>Nenhuma meta cadastrada</h2><p>Cadastre a meta do período para acompanhar o realizado.</p></section>
     </section>
   </main>
 
