@@ -9,11 +9,12 @@
   <link rel="preconnect" href="https://cdn.plot.ly">
   <link rel="stylesheet" href="styles.css?v=3">
   <style>.area-card.selected{border:2px solid #164a35;box-shadow:0 0 0 3px rgba(205,232,107,.35)}.metric small{display:block;margin-top:8px;font-weight:800}.positive{color:#197044}.negative{color:#b0483e}.comparison-metrics{margin-top:22px}.diagnostic-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.diagnostic-item{padding:8px 11px;border-radius:999px;background:#edf2ed;color:#164a35;font-size:12px;font-weight:750}.diagnostic-item.missing{background:#f8ecea;color:#9a3f36}.import-diagnostics{padding-bottom:14px}</style>
+  <style>:root{--ink:#20283a;--muted:#687083;--paper:#f6f3ed;--green:#1e2a44;--lime:#c8a96a;--line:#ded8ce;--shadow:0 18px 60px rgba(30,42,68,.12)}body,.topbar{background-color:#f6f3ed}.main-nav{background:#ebe6dd}.privacy-pill,.status-badge{background:#eee6d8;color:#1e2a44}.eyebrow{color:#8c6f3d}.area-card.selected{border-color:#1e2a44;box-shadow:0 0 0 3px rgba(200,169,106,.35)}.diagnostic-item{background:#eee6d8;color:#1e2a44}.small-button{background:#eeeae2;color:#1e2a44}</style>
   <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>function showCastelView(view){var reports=view==='reports',areas=document.getElementById('areas-view'),upload=document.getElementById('upload-view'),dashboard=document.getElementById('dashboard-view');if(areas)areas.classList.toggle('hidden',reports);if(upload)upload.classList.toggle('hidden',!reports);if(dashboard)dashboard.classList.add('hidden');document.querySelectorAll('.nav-link').forEach(function(b){b.classList.toggle('active',b.dataset.view===view)});location.hash=view;}</script>
-  <script defer src="app.js?v=16"></script>
+  <script defer src="app.js?v=17"></script>
 </head>
 <body>
   <header class="topbar">
