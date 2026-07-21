@@ -12,7 +12,7 @@
   <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>function showCastelView(view){var reports=view==='reports',areas=document.getElementById('areas-view'),upload=document.getElementById('upload-view'),dashboard=document.getElementById('dashboard-view');if(areas)areas.classList.toggle('hidden',reports);if(upload)upload.classList.toggle('hidden',!reports);if(dashboard)dashboard.classList.add('hidden');document.querySelectorAll('.nav-link').forEach(function(b){b.classList.toggle('active',b.dataset.view===view)});location.hash=view;}</script>
-  <script defer src="app.js?v=9"></script>
+  <script defer src="app.js?v=10"></script>
 </head>
 <body>
   <header class="topbar">
@@ -71,6 +71,22 @@
       <section class="panel hidden" id="financial-panel">
         <div class="panel-head"><div><p class="eyebrow">Financeiro</p><h2>Comissões recebidas e pendentes</h2></div><span class="muted">Calculado pelo percentual recebido de cada negócio</span></div>
         <div id="financial-chart" class="chart financial-chart"></div>
+      </section>
+
+      <section class="panel table-panel">
+        <div class="panel-head"><div><p class="eyebrow">Ranking gerencial</p><h2>Desempenho por gerente</h2></div></div>
+        <div class="table-wrap"><table><thead><tr><th>#</th><th>Gerente / responsável</th><th>Negócios</th><th>VGV</th><th>Ticket médio</th><th>Participação no VGV</th></tr></thead><tbody id="manager-ranking-body"></tbody></table></div>
+      </section>
+
+      <section class="chart-grid ranking-grid">
+        <article class="panel table-panel">
+          <div class="panel-head"><div><p class="eyebrow">Ranking de produtos</p><h2>Produtos por desempenho</h2></div></div>
+          <div class="table-wrap"><table><thead><tr><th>#</th><th>Produto</th><th>Leads</th><th>Vendas</th><th>Conversão</th><th>VGV</th></tr></thead><tbody id="product-ranking-body"></tbody></table></div>
+        </article>
+        <article class="panel table-panel">
+          <div class="panel-head"><div><p class="eyebrow">Ranking de imobiliárias</p><h2>Imobiliárias que mais vendem</h2></div></div>
+          <div class="table-wrap"><table><thead><tr><th>#</th><th>Imobiliária</th><th>Leads</th><th>Vendas</th><th>Conversão</th><th>VGV</th></tr></thead><tbody id="agency-ranking-body"></tbody></table></div>
+        </article>
       </section>
 
       <section class="panel table-panel">
