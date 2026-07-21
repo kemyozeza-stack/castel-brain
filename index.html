@@ -10,14 +10,15 @@
   <link rel="stylesheet" href="styles.css?v=3">
   <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-  <script defer src="app.js?v=3"></script>
+  <script>function showCastelView(view){var reports=view==='reports',areas=document.getElementById('areas-view'),upload=document.getElementById('upload-view'),dashboard=document.getElementById('dashboard-view');if(areas)areas.classList.toggle('hidden',reports);if(upload)upload.classList.toggle('hidden',!reports);if(dashboard)dashboard.classList.add('hidden');document.querySelectorAll('.nav-link').forEach(function(b){b.classList.toggle('active',b.dataset.view===view)});location.hash=view;}</script>
+  <script defer src="app.js?v=4"></script>
 </head>
 <body>
   <header class="topbar">
     <div class="brand"><span class="brand-mark">CB</span><span>Castel Brain</span></div>
     <nav class="main-nav" aria-label="Navegação principal">
-      <button class="nav-link active" data-view="reports">Relatórios</button>
-      <button class="nav-link" data-view="areas">Banco de áreas</button>
+      <button class="nav-link active" data-view="reports" type="button" onclick="showCastelView('reports')">Relatórios</button>
+      <button class="nav-link" data-view="areas" type="button" onclick="showCastelView('areas')">Banco de áreas</button>
     </nav>
     <span class="privacy-pill">🔒 Processamento local</span>
   </header>
