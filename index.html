@@ -12,7 +12,7 @@
   <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>function showCastelView(view){var reports=view==='reports',areas=document.getElementById('areas-view'),upload=document.getElementById('upload-view'),dashboard=document.getElementById('dashboard-view');if(areas)areas.classList.toggle('hidden',reports);if(upload)upload.classList.toggle('hidden',!reports);if(dashboard)dashboard.classList.add('hidden');document.querySelectorAll('.nav-link').forEach(function(b){b.classList.toggle('active',b.dataset.view===view)});location.hash=view;}</script>
-  <script defer src="app.js?v=6"></script>
+  <script defer src="app.js?v=7"></script>
 </head>
 <body>
   <header class="topbar">
@@ -71,6 +71,11 @@
       <section class="panel table-panel">
         <div class="panel-head"><div><p class="eyebrow">Ranking</p><h2>Corretores por VGV</h2></div></div>
         <div class="table-wrap"><table><thead><tr><th>#</th><th>Corretor</th><th>Gerente</th><th>Visitas</th><th>Vendas</th><th>Conversão</th><th>VGV</th></tr></thead><tbody id="ranking-body"></tbody></table></div>
+      </section>
+
+      <section class="panel table-panel" id="sales-detail-panel">
+        <div class="panel-head"><div><p class="eyebrow">Conferência</p><h2>Detalhamento dos negócios</h2></div><span class="muted" id="sales-detail-count"></span></div>
+        <div class="table-wrap"><table><thead><tr><th>Responsável</th><th>Loteamento</th><th>Quadra</th><th>Lote</th><th>Cliente</th><th>Corretor</th><th>PV / VGV</th><th>Recebido</th><th>Pendente</th></tr></thead><tbody id="sales-detail-body"></tbody></table></div>
       </section>
     </section>
 
