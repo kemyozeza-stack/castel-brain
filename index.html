@@ -14,7 +14,7 @@
   <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script>function showCastelView(view){var reports=view==='reports',areas=document.getElementById('areas-view'),upload=document.getElementById('upload-view'),dashboard=document.getElementById('dashboard-view');if(areas)areas.classList.toggle('hidden',reports);if(upload)upload.classList.toggle('hidden',!reports);if(dashboard)dashboard.classList.add('hidden');document.querySelectorAll('.nav-link').forEach(function(b){b.classList.toggle('active',b.dataset.view===view)});location.hash=view;}</script>
-  <script defer src="app.js?v=23"></script>
+  <script defer src="app.js?v=24"></script>
 </head>
 <body>
   <header class="topbar">
@@ -35,16 +35,16 @@
         <h1>Transforme seu Excel em decisões.</h1>
         <p class="lead">Analise leads, visitas, propostas, vendas e VGV diretamente no navegador. Sua planilha não é enviada para nenhum servidor.</p>
         <div class="actions">
-          <label class="button primary" for="file-input">Selecionar relatório</label>
-          <a class="button secondary" href="modelo_relatorio_castel.xlsx" download>Baixar planilha-modelo</a>
+          <label class="button primary" for="compilation-input">Adicionar à compilação</label>
+          <label class="button secondary" for="file-input">Analisar arquivo separado</label>
           <input id="file-input" type="file" accept=".xlsx,.xls,.csv" hidden>
         </div>
-        <p class="file-help" id="file-status">Formatos aceitos: Excel e CSV.</p>
+        <p class="file-help" id="file-status">Use o botão principal para montar o relatório consolidado.</p>
         <section class="compilation-card">
           <p class="eyebrow">Compilação mensal</p><h2>Juntar vários relatórios</h2>
           <p class="muted">Adicione os arquivos um de cada vez. Eles ficam guardados somente neste navegador até você consolidar.</p>
           <div class="compilation-list" id="compilation-list"></div>
-          <div class="compilation-actions"><label class="button secondary" for="compilation-input">+ Adicionar arquivo</label><input id="compilation-input" type="file" accept=".xlsx,.xls,.csv" hidden><button class="button primary" id="compile-reports" disabled>Consolidar e analisar</button><button class="small-button danger hidden" id="clear-compilation">Limpar lista</button></div>
+          <div class="compilation-actions"><label class="button primary" for="compilation-input">+ Adicionar próximo arquivo</label><input id="compilation-input" type="file" accept=".xlsx,.xls,.csv" hidden><button class="button secondary" id="compile-reports" disabled>Consolidar e analisar</button><button class="small-button danger hidden" id="clear-compilation">Limpar lista</button></div>
           <p class="file-help" id="compilation-status">Nenhum arquivo adicionado.</p>
         </section>
       </div>
