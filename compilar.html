@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Compilar relatórios | Castel Brain</title>
+  <link rel="stylesheet" href="styles.css?v=3">
+  <style>
+    :root{--ink:#20283a;--muted:#687083;--paper:#f6f3ed;--green:#1e2a44;--lime:#c8a96a;--line:#ded8ce}body{background:var(--paper)}.compiler{width:min(1180px,calc(100% - 32px));margin:36px auto 70px}.compiler-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:22px}.compiler h1{font-family:Georgia,serif;font-size:48px;margin:0}.upload-box{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;margin-bottom:16px}.queue{display:grid;gap:9px;margin:18px 0}.queue-item{display:flex;justify-content:space-between;gap:16px;padding:13px 15px;background:#f4f1eb;border-radius:11px}.queue-item strong{font-size:13px}.queue-item span{font-size:11px;color:var(--muted)}.status{padding:12px;border-radius:10px;background:#eee6d8;color:#1e2a44;font-size:13px;margin-top:14px}.status.error{background:#f8e5e1;color:#8d332c}.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:16px 0}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}.card span{font-size:11px;color:var(--muted);font-weight:800}.card strong{display:block;font-size:25px;margin-top:7px}.tables{display:grid;grid-template-columns:1fr 1fr;gap:14px}.hidden{display:none!important}@media(max-width:760px){.compiler-head{align-items:flex-start;flex-direction:column}.compiler h1{font-size:38px}.cards,.tables{grid-template-columns:1fr}.actions .button{width:100%}}
+  </style>
+</head>
+<body>
+  <main class="compiler">
+    <header class="compiler-head"><div><p class="eyebrow">Castel Brain</p><h1>Compilar relatórios</h1><p class="muted">Adicione os arquivos um de cada vez e consolide quando a lista estiver completa.</p></div><a class="button secondary" href="./?v=29#reports">Voltar ao painel</a></header>
+    <section class="upload-box">
+      <div class="actions"><label class="button primary" for="files">+ Adicionar arquivo</label><input id="files" type="file" accept=".xlsx,.xls,.csv" hidden><button class="button secondary" id="analyze" disabled>Consolidar e analisar</button><button class="small-button danger" id="clear" type="button">Limpar</button></div>
+      <div class="queue" id="queue"><p class="muted">Nenhum arquivo adicionado.</p></div>
+      <div class="status" id="status">Aguardando o primeiro arquivo.</div>
+    </section>
+    <section id="results" class="hidden">
+      <div class="cards" id="cards"></div>
+      <div class="tables">
+        <article class="panel"><h2>Produtos</h2><div class="table-wrap"><table><thead><tr><th>#</th><th>Produto</th><th>Visitas</th><th>Vendas</th><th>VGV</th></tr></thead><tbody id="products"></tbody></table></div></article>
+        <article class="panel"><h2>Imobiliárias</h2><div class="table-wrap"><table><thead><tr><th>#</th><th>Imobiliária</th><th>Visitas</th><th>Vendas</th><th>VGV</th></tr></thead><tbody id="agencies"></tbody></table></div></article>
+        <article class="panel"><h2>Gerentes</h2><div class="table-wrap"><table><thead><tr><th>#</th><th>Gerente</th><th>Visitas</th><th>Vendas</th><th>VGV</th></tr></thead><tbody id="managers"></tbody></table></div></article>
+        <article class="panel"><h2>Corretores</h2><div class="table-wrap"><table><thead><tr><th>#</th><th>Corretor</th><th>Visitas</th><th>Vendas</th><th>VGV</th></tr></thead><tbody id="brokers"></tbody></table></div></article>
+      </div>
+    </section>
+  </main>
+  <script src="xlsx.full.min.js?v=1"></script>
+  <script>
+  (function(){
+    var files=[], parsed=[];
+    var aliases={date:['data','periodo','período'],product:['produto','empreendimento','imovel','imóvel'],agency:['imobiliaria','imobiliária','agencia','agência'],manager:['gerente','gestor'],broker:['corretor','consultor'],leads:['leads','lead'],visits:['visitas','visita'],proposals:['propostas','proposta'],sales:['vendas','venda'],vgv:['vgv','valor','valor de venda']};
+    function norm(v){return String(v==null?'':v).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+    function num(v){if(typeof v==='number')return v;var s=String(v==null?'':v).replace(/R\$/gi,'').replace(/\s/g,'');if(s.indexOf(',')>=0&&s.indexOf('.')>=0)s=s.replace(/\./g,'').replace(',','.');else s=s.replace(',','.');return Number(s)||0}
+    function esc(v){return String(v==null?'':v).replace(/[&<>'"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]})}
+    function detect(headers,key){var list=aliases[key].map(norm);return headers.find(function(h){return list.indexOf(norm(h))>=0})||headers.find(function(h){return list.some(function(a){return norm(h).indexOf(a)>=0})})}
+    function money(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(v||0)}
+    function count(v){return new Intl.NumberFormat('pt-BR',{maximumFractionDigits:0}).format(v||0)}
+    function status(text,error){var el=document.getElementById('status');el.textContent=text;el.className='status'+(error?' error':'')}
+    function renderQueue(){var q=document.getElementById('queue');q.innerHTML=files.length?files.map(function(f,i){return '<div class="queue-item"><div><strong>'+(i+1)+'. '+esc(f.name)+'</strong><br><span>'+count(f.size/1024)+' KB</span></div><button class="small-button danger" data-remove="'+i+'">Remover</button></div>'}).join(''):'<p class="muted">Nenhum arquivo adicionado.</p>';document.getElementById('analyze').disabled=!files.length;q.querySelectorAll('[data-remove]').forEach(function(b){b.onclick=function(){files.splice(Number(b.dataset.remove),1);renderQueue();status(files.length?files.length+' arquivo(s) na lista.':'Aguardando o primeiro arquivo.')}})}
+    async function read(file){var data=await file.arrayBuffer(),wb=XLSX.read(data,{type:'array',cellDates:true}),all=[];wb.SheetNames.forEach(function(name){var rows=XLSX.utils.sheet_to_json(wb.Sheets[name],{defval:''});if(rows.length)all=all.concat(rows)});if(!all.length)throw new Error('A planilha está vazia');var headers=Object.keys(all[0]),map={};Object.keys(aliases).forEach(function(k){map[k]=detect(headers,k)});return all.map(function(r){return {product:String(r[map.product]||'Não informado'),agency:String(r[map.agency]||'Não informado'),manager:String(r[map.manager]||'Não informado'),broker:String(r[map.broker]||'Não informado'),leads:num(r[map.leads]),visits:num(r[map.visits]),proposals:num(r[map.proposals]),sales:num(r[map.sales]),vgv:num(r[map.vgv])}})}
+    function ranking(rows,key){var out={};rows.forEach(function(r){var n=r[key]||'Não informado';if(!out[n])out[n]={name:n,visits:0,sales:0,vgv:0};out[n].visits+=r.visits;out[n].sales+=r.sales;out[n].vgv+=r.vgv});return Object.values(out).sort(function(a,b){return b.sales-a.sales||b.visits-a.visits||b.vgv-a.vgv})}
+    function table(id,data){document.getElementById(id).innerHTML=data.slice(0,20).map(function(r,i){return '<tr><td>'+(i+1)+'</td><td><strong>'+esc(r.name)+'</strong></td><td>'+count(r.visits)+'</td><td>'+count(r.sales)+'</td><td>'+money(r.vgv)+'</td></tr>'}).join('')}
+    document.getElementById('files').onchange=function(){if(!this.files[0])return;files.push(this.files[0]);renderQueue();status(this.files[0].name+' adicionado. Pode selecionar o próximo.');this.value=''};
+    document.getElementById('clear').onclick=function(){files=[];parsed=[];renderQueue();document.getElementById('results').classList.add('hidden');status('Lista limpa. Aguardando o primeiro arquivo.')};
+    document.getElementById('analyze').onclick=async function(){var button=this;button.disabled=true;button.textContent='Analisando…';parsed=[];try{for(var i=0;i<files.length;i++){status('Lendo '+(i+1)+' de '+files.length+': '+files[i].name);parsed=parsed.concat(await read(files[i]))}var sum=function(k){return parsed.reduce(function(s,r){return s+r[k]},0)},leads=sum('leads'),visits=sum('visits'),proposals=sum('proposals'),sales=sum('sales'),vgv=sum('vgv');document.getElementById('cards').innerHTML=[['Arquivos',files.length],['Registros',parsed.length],['Leads',leads],['Visitas',visits],['Vendas',sales],['VGV',money(vgv)]].map(function(x){return '<article class="card"><span>'+x[0]+'</span><strong>'+x[1]+'</strong></article>'}).join('');table('products',ranking(parsed,'product'));table('agencies',ranking(parsed,'agency'));table('managers',ranking(parsed,'manager'));table('brokers',ranking(parsed,'broker'));document.getElementById('results').classList.remove('hidden');status('Consolidação concluída: '+files.length+' arquivo(s) e '+parsed.length+' registros.')}catch(e){status('Erro: '+(e.message||'não foi possível ler o arquivo'),true)}finally{button.disabled=false;button.textContent='Consolidar e analisar'}};
+    renderQueue();
+  })();
+  </script>
+</body>
+</html>
+
